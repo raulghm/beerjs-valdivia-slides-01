@@ -557,6 +557,7 @@ kbd {
 	text-align: center;
 }
   </style>
+    <script async src="http://localhost:35729/livereload.js"></script>
 </head>
 <body>
     <div class="progress">
@@ -758,6 +759,89 @@ kbd {
     <div class="slide-wrapper">
       <div class="slide hidden" id="slide-16">
         <div data-id="16" class="slide-overlay"></div>
+        <section class="slide-content"><h1 id="ejemplo">Ejemplo</h1>
+<pre><code>query Course($slug: String!, $userId: ID!) {
+  Course(slug: $slug) {
+    title
+    description
+    master
+    nextCourse {
+      slug
+    }
+    blocks {
+      title
+      lessons(orderBy: order_ASC) {
+        title
+        slug
+        time
+        type
+        order
+        progresses(filter: { user: { id: $userId } } ) {
+          id
+          lesson {
+            id
+          }
+        }
+      }
+    }
+    resources {
+      title
+      time
+      type
+      url
+    }
+  }
+}
+</code></pre></section>
+      </div>
+    </div>
+    <div class="slide-wrapper">
+      <div class="slide hidden" id="slide-17">
+        <div data-id="17" class="slide-overlay"></div>
+        <section class="slide-content"><pre><code>&lt;script&gt;
+import gql from &#39;graphql-tag&#39;
+import Loading from &#39;@/components/ui/Loading&#39;
+import COURSE from &#39;@/graphql/Course.gql&#39;
+
+export default {
+  data: () =&gt; ({
+    menu: 0,
+    course: {},
+    user: {},
+    resumeSlug: null,
+  }),
+
+  components: {
+    Loading,
+  },
+
+  apollo: {
+    course: {
+      query: COURSE,
+      variables () {
+        return {
+          slug: this.$route.params.courseSlug,
+          userId: this.$store.state.auth ? this.$store.state.profile.userGraphcoolId : 0
+        }
+      },
+      update ({ Course }) {
+        this.$store.commit(&#39;setLoading&#39;, false)
+        this.$store.commit(&#39;setCourseBreadcrumb&#39;, Course.title)
+        this.$store.commit(&#39;setNextCourse&#39;, Course.nextCourse)
+        this.saveLessons(Course.blocks)
+        return Course
+      },
+    },
+  },
+
+  ...
+&lt;script&gt;
+</code></pre></section>
+      </div>
+    </div>
+    <div class="slide-wrapper">
+      <div class="slide hidden" id="slide-18">
+        <div data-id="18" class="slide-overlay"></div>
         <section class="slide-content"><h1 id="apollo-client">Apollo Client</h1>
 <ul>
 <li>Vue-apollo</li>
@@ -770,15 +854,15 @@ kbd {
       </div>
     </div>
     <div class="slide-wrapper">
-      <div class="slide hidden" id="slide-17">
-        <div data-id="17" class="slide-overlay"></div>
+      <div class="slide hidden" id="slide-19">
+        <div data-id="19" class="slide-overlay"></div>
         <section class="slide-content"><h1 id="one-more-thing-">One more thing...</h1>
 </section>
       </div>
     </div>
     <div class="slide-wrapper">
-      <div class="slide hidden" id="slide-18">
-        <div data-id="18" class="slide-overlay"></div>
+      <div class="slide hidden" id="slide-20">
+        <div data-id="20" class="slide-overlay"></div>
         <section class="slide-content"><h1 id="graph-cool">Graph.cool</h1>
 <div class="u-alignCenter">
     <img src="img/03.jpg" alt="image" style="display: inline-block;">
@@ -786,8 +870,8 @@ kbd {
       </div>
     </div>
     <div class="slide-wrapper">
-      <div class="slide hidden" id="slide-19">
-        <div data-id="19" class="slide-overlay"></div>
+      <div class="slide hidden" id="slide-21">
+        <div data-id="21" class="slide-overlay"></div>
         <section class="slide-content"><h1 id="graph-cool">Graph.cool</h1>
 <ul>
 <li>CLI</li>
@@ -800,8 +884,8 @@ kbd {
       </div>
     </div>
     <div class="slide-wrapper">
-      <div class="slide hidden" id="slide-20">
-        <div data-id="20" class="slide-overlay"></div>
+      <div class="slide hidden" id="slide-22">
+        <div data-id="22" class="slide-overlay"></div>
         <section class="slide-content"><h1 id="resources">Resources</h1>
 <ul>
 <li><a href="http://graphql.org">http://graphql.org</a> </li>
@@ -812,8 +896,8 @@ kbd {
       </div>
     </div>
     <div class="slide-wrapper">
-      <div class="slide hidden author-slide" id="slide-21">
-        <div data-id="21" class="slide-overlay"></div>
+      <div class="slide hidden author-slide" id="slide-23">
+        <div data-id="23" class="slide-overlay"></div>
         <section class="slide-content"><div class="author">
   <h1 class="name">Raúl Hernández</h1>
     <h3 class="twitter">

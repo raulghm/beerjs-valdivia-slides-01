@@ -204,6 +204,87 @@ Response
 
 --
 
+# Ejemplo
+
+```
+query Course($slug: String!, $userId: ID!) {
+  Course(slug: $slug) {
+    title
+    description
+    master
+    nextCourse {
+      slug
+    }
+    blocks {
+      title
+      lessons(orderBy: order_ASC) {
+        title
+        slug
+        time
+        type
+        order
+        progresses(filter: { user: { id: $userId } } ) {
+          id
+          lesson {
+            id
+          }
+        }
+      }
+    }
+    resources {
+      title
+      time
+      type
+      url
+    }
+  }
+}
+```
+--
+
+```
+<script>
+import gql from 'graphql-tag'
+import Loading from '@/components/ui/Loading'
+import COURSE from '@/graphql/Course.gql'
+
+export default {
+  data: () => ({
+    menu: 0,
+    course: {},
+    user: {},
+    resumeSlug: null,
+  }),
+
+  components: {
+    Loading,
+  },
+
+  apollo: {
+    course: {
+      query: COURSE,
+      variables () {
+        return {
+          slug: this.$route.params.courseSlug,
+          userId: this.$store.state.auth ? this.$store.state.profile.userGraphcoolId : 0
+        }
+      },
+      update ({ Course }) {
+        this.$store.commit('setLoading', false)
+        this.$store.commit('setCourseBreadcrumb', Course.title)
+        this.$store.commit('setNextCourse', Course.nextCourse)
+        this.saveLessons(Course.blocks)
+        return Course
+      },
+    },
+  },
+
+  ...
+<script>
+  ```
+
+--
+
 # Apollo Client
 
 * Vue-apollo
