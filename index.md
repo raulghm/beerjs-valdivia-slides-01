@@ -177,6 +177,8 @@ Response
 }
 ```
 
+--
+
 # Mutation
 ## delete
 
